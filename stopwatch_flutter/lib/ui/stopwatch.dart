@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:stopwatch_flutter/ui/elapsed_time_text.dart';
 import 'package:stopwatch_flutter/ui/elapsed_time_text_basic.dart';
 
 class Stopwatch extends StatefulWidget {
@@ -7,10 +10,32 @@ class Stopwatch extends StatefulWidget {
 }
 
 class _StopwatchState extends State<Stopwatch> {
+
+  late DateTime _initialTime;
+  Duration _elapsed = Duration.zero;
+  late final Timer _timer;
+  @override
+  void initState() {
+    super.initState();
+    _initialTime = DateTime.now();
+    _timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
+      final now = DateTime.now();
+      setState(() {
+        _elapsed = now.difference(_initialTime);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ElapsedTimeTextBasic(
-      elapsed: Duration(seconds: 10),
+    return ElapsedTimeText(
+      elapsed: _elapsed,
     );
   }
 }
