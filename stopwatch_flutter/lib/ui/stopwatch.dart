@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:stopwatch_flutter/ui/reset_button.dart';
+import 'package:stopwatch_flutter/ui/start_stop_button.dart';
 import 'package:stopwatch_flutter/ui/stopwatch_renderer.dart';
 
 class Stopwatch extends StatefulWidget {
@@ -44,6 +46,34 @@ class _StopwatchState extends State<Stopwatch>
               elapsed: _elapsed,
             ),
           ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: SizedBox(
+              width: 80,
+              height: 80,
+              child: ResetButton(
+                onPressed: () {
+                  setState(() {
+                    _elapsed = Duration.zero;
+                  });
+                },
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: SizedBox(
+              width: 80,
+              height: 80,
+              child: StartStopButton(
+                onPressed: () {
+                  setState(() {
+                    _elapsed = Duration.zero;
+                  });
+                }, isRunning: true,
+              ),
+            ),
+          )
         ],
       );
     });
