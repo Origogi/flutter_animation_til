@@ -13,8 +13,12 @@ class Stopwatch extends StatefulWidget {
 
 class _StopwatchState extends State<Stopwatch>
     with SingleTickerProviderStateMixin {
-  Duration _elapsed = Duration.zero;
+  Duration _previousElapsed = Duration.zero;
+  Duration _currentElapsed = Duration.zero;
+
+  Duration get _elapsed => _previousElapsed + _currentElapsed;
   late final Ticker _ticker;
+  bool _isRunning = true;
 
   @override
   void initState() {
@@ -22,10 +26,32 @@ class _StopwatchState extends State<Stopwatch>
 
     _ticker = createTicker((elapsed) {
       setState(() {
-        _elapsed = elapsed;
+        _currentElapsed = elapsed;
       });
     });
     _ticker.start();
+  }
+
+  void _toggleRunning() {
+    setState(() {
+      _isRunning = !_isRunning;
+      if (_isRunning) {
+        _ticker.start();
+      } else {
+        _ticker.stop();
+        _previousElapsed += _currentElapsed;
+        _currentElapsed = Duration.zero;
+      }
+    });
+  }
+
+  void _reset() {
+    _ticker.stop();
+    setState(() {
+      _previousElapsed = Duration.zero;
+      _currentElapsed = Duration.zero;
+      _isRunning = false;
+    });
   }
 
   @override
@@ -52,11 +78,7 @@ class _StopwatchState extends State<Stopwatch>
               width: 80,
               height: 80,
               child: ResetButton(
-                onPressed: () {
-                  setState(() {
-                    _elapsed = Duration.zero;
-                  });
-                },
+                onPressed: _reset,
               ),
             ),
           ),
@@ -66,11 +88,8 @@ class _StopwatchState extends State<Stopwatch>
               width: 80,
               height: 80,
               child: StartStopButton(
-                onPressed: () {
-                  setState(() {
-                    _elapsed = Duration.zero;
-                  });
-                }, isRunning: true,
+                onPressed: _toggleRunning,
+                isRunning: _isRunning,
               ),
             ),
           )
