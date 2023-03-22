@@ -19,6 +19,8 @@ class _AnimatedTaskState extends State<AnimatedTask>
   late final AnimationController _animationController;
   late final Animation<double> _curveAnimation;
 
+  bool _showCheckIcon = false;
+
   @override
   void initState() {
     super.initState();
@@ -27,13 +29,34 @@ class _AnimatedTaskState extends State<AnimatedTask>
       duration: const Duration(milliseconds: 750),
     );
 
+    _animationController.addStatusListener(_checkStatusUpdates);
+
     _curveAnimation = _animationController.drive(
       CurveTween(curve: Curves.easeInOutCubic),
     );
   }
 
+  void _checkStatusUpdates(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      if (mounted) {
+        setState(() {
+          _showCheckIcon = true;
+        });
+      }
+
+      Future.delayed(Duration(milliseconds: 1000), () {
+        if (mounted) {
+          setState(() {
+            _showCheckIcon = false;
+          });
+        }
+      });
+    }
+  }
+
   @override
   void dispose() {
+    _animationController.removeStatusListener(_checkStatusUpdates);
     _animationController.dispose();
     super.dispose();
   }
@@ -41,7 +64,7 @@ class _AnimatedTaskState extends State<AnimatedTask>
   void _handleTapDown(TapDownDetails details) {
     if (_animationController.status != AnimationStatus.completed) {
       _animationController.forward();
-    } else {
+    } else if (!_showCheckIcon) {
       _animationController.value = 0.0;
     }
   }
@@ -72,7 +95,10 @@ class _AnimatedTaskState extends State<AnimatedTask>
               TaskCompletionRing(progress: _curveAnimation.value),
               Positioned.fill(
                   child: CenteredSvgIcon(
-                      iconName: widget.iconName, color: iconColor))
+                      iconName: hasCompleted && _showCheckIcon
+                          ? AppAssets.check
+                          : widget.iconName,
+                      color: iconColor))
             ],
           );
         },
