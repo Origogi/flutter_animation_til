@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:habit_tracker_flutter/models/task_preset.dart';
 import 'package:habit_tracker_flutter/ui/task/task_with_name.dart';
@@ -16,8 +17,9 @@ class TasksGrid extends StatelessWidget {
       final taskWidth = (constraints.maxWidth - crossAxisSpacing) / 2.0;
       const aspectRatio = 0.82;
       final taskHeight = taskWidth / aspectRatio;
+      // Use max(x, 0.1) to prevent layout error when keyword is visible in modal page
       final mainAxisSpacing =
-          max((constraints.maxHeight - taskHeight * 3) / 2.0, 0.1);
+      max((constraints.maxHeight - taskHeight * 3) / 2.0, 0.1);
 
       return GridView.builder(
           physics: NeverScrollableScrollPhysics(),
