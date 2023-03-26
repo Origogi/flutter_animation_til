@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:habit_tracker_flutter/models/task.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:riverpod/riverpod.dart';
 
 class HiveDataStore {
   static const tasksBoxName = 'tasks';
@@ -35,3 +36,7 @@ class HiveDataStore {
     return Hive.box<Task>(tasksBoxName).listenable();
   }
 }
+
+final dataStoreProvider = Provider<HiveDataStore>((ref) {
+  throw UnimplementedError();
+});
