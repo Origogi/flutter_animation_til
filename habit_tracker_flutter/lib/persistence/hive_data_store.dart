@@ -21,6 +21,7 @@ class HiveDataStore {
     final box = Hive.box<Task>(tasksBoxName);
 
     if (box.isEmpty || force) {
+      await box.clear();
       await box.addAll(tasks);
     } else {
       print(

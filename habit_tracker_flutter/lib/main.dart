@@ -6,6 +6,7 @@ import 'package:habit_tracker_flutter/ui/home/home_page.dart';
 import 'package:habit_tracker_flutter/ui/theming/app_theme.dart';
 
 import 'models/task.dart';
+import 'models/task_preset.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,14 +14,15 @@ Future<void> main() async {
 
   final dataStore = HiveDataStore();
   await dataStore.init();
-  await dataStore.createDemoTasks(tasks: [
-    Task.create(name: 'Eat a Healthy Meal', iconName: AppAssets.carrot),
-    Task.create(name: 'Walk the Dog', iconName: AppAssets.dog),
-    Task.create(name: 'Do Some Coding', iconName: AppAssets.html),
-    Task.create(name: 'Meditate', iconName: AppAssets.meditation),
-    Task.create(name: 'Do 10 Pushups', iconName: AppAssets.pushups),
-    Task.create(name: 'Sleep 8 Hours', iconName: AppAssets.rest),
-  ]);
+
+  final presets = TaskPreset.allPresets.toList()..shuffle();
+
+  final tasks = presets
+      .sublist(0, 6)
+      .map((e) => Task.create(name: e.name, iconName: e.iconName))
+      .toList();
+
+  await dataStore.createDemoTasks(tasks: tasks, force: true);
 
   runApp(MyApp());
 }
