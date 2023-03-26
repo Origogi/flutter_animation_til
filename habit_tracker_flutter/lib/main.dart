@@ -5,12 +5,17 @@ import 'package:habit_tracker_flutter/persistence/hive_data_store.dart';
 import 'package:habit_tracker_flutter/ui/home/home_page.dart';
 import 'package:habit_tracker_flutter/ui/theming/app_theme.dart';
 
+import 'models/task.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppAssets.preloadSVGs();
 
   final dataStore = HiveDataStore();
   await dataStore.init();
+  await dataStore.createDemoTasks(tasks: [
+    Task(id: '1', name: 'Walk the dog', iconName: 'dog'),
+  ]);
 
   runApp(MyApp());
 }
