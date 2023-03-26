@@ -22,7 +22,7 @@ Future<void> main() async {
       .map((e) => Task.create(name: e.name, iconName: e.iconName))
       .toList();
 
-  await dataStore.createDemoTasks(tasks: tasks, force: true);
+  await dataStore.createDemoTasks(tasks: tasks, force: false);
 
   runApp(MyApp());
 }
