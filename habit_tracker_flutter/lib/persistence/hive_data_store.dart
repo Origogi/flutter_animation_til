@@ -6,9 +6,9 @@ import 'package:riverpod/riverpod.dart';
 
 class HiveDataStore {
   static const tasksBoxName = 'tasks';
-  static const taskStatesBoxName = 'taskStates';
+  static const tasksStateBoxName = 'tasksState';
 
-  static String taskStateKey(String taskId) => 'taskState/$taskId';
+  static String taskStateKey(String taskId) => 'tasksState/$taskId';
 
   Future<void> init() async {
     await Hive.initFlutter();
@@ -19,7 +19,7 @@ class HiveDataStore {
 
     // open boxes
     await Hive.openBox<Task>(tasksBoxName);
-    await Hive.openBox<Task>(taskStatesBoxName);
+    await Hive.openBox<Task>(tasksStateBoxName);
   }
 
   Future<void> createDemoTasks({
@@ -43,15 +43,20 @@ class HiveDataStore {
 
   Future<void> setTaskState(
       {required Task task, required bool completed}) async {
-    final box = Hive.box<TaskState>(taskStatesBoxName);
+    final box = Hive.box<TaskState>(tasksStateBoxName);
     final taskState = TaskState(taskId: task.id, completed: completed);
     await box.put(taskStateKey(task.id), taskState);
   }
 
-  ValueListenable<Box<TaskState>> taskStatesListenable({required Task task}) {
-    final box = Hive.box<TaskState>(taskStatesBoxName);
+  ValueListenable<Box<TaskState>> taskStateListenable({required Task task}) {
+    final box = Hive.box<TaskState>(tasksStateBoxName);
     final key = taskStateKey(task.id);
     return box.listenable(keys: <String>[key]);
+  }
+
+  TaskState taskState(Box<TaskState> box, {required Task task}) {
+    final key = taskStateKey(task.id);
+    return box.get(key) ?? TaskState(taskId: task.id, completed: false);
   }
 }
 

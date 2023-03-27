@@ -3,8 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:habit_tracker_flutter/models/task.dart';
-import 'package:habit_tracker_flutter/models/task_preset.dart';
-import 'package:habit_tracker_flutter/ui/task/task_with_name.dart';
+import 'package:habit_tracker_flutter/ui/task/task_with_name_loader.dart';
 
 class TasksGrid extends StatelessWidget {
   const TasksGrid({Key? key, required this.tasks}) : super(key: key);
@@ -32,7 +31,7 @@ class TasksGrid extends StatelessWidget {
               childAspectRatio: aspectRatio),
           itemBuilder: (context, index) {
             final task = tasks[index];
-            return TaskWithName(task: task);
+            return TaskWithNameLoader(task: task);
           });
     });
   }
