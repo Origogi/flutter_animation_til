@@ -103,7 +103,7 @@ class _AnimatedTaskState extends State<AnimatedTask>
 
           return Stack(
             children: [
-              TaskCompletionRing(progress: _curveAnimation.value),
+              TaskCompletionRing(progress: progress),
               Positioned.fill(
                   child: CenteredSvgIcon(
                       iconName: hasCompleted && _showCheckIcon

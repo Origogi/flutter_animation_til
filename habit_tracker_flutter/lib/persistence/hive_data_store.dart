@@ -19,7 +19,7 @@ class HiveDataStore {
 
     // open boxes
     await Hive.openBox<Task>(tasksBoxName);
-    await Hive.openBox<Task>(tasksStateBoxName);
+    await Hive.openBox<TaskState>(tasksStateBoxName);
   }
 
   Future<void> createDemoTasks({
