@@ -11,9 +11,9 @@ class HomePage extends ConsumerWidget {
     final source = ref.watch(dataStoreProvider);
 
     return ValueListenableBuilder(
-        valueListenable: source.tasksListenable(),
+        valueListenable: source.frontTasksListenable(),
         builder: (_, Box<Task> box, __) {
-          return TasksGridPage(tasks: box.values.toList());
+          return TasksGridPage(tasks: box.values.toList(), onFlip: () {},);
         });
   }
 }

@@ -19,11 +19,14 @@ Future<void> main() async {
   final presets = TaskPreset.allPresets.toList()..shuffle();
 
   final tasks = presets
-      .sublist(0, 6)
+      .sublist(0, 12)
       .map((e) => Task.create(name: e.name, iconName: e.iconName))
       .toList();
 
-  await dataStore.createDemoTasks(tasks: tasks, force: false);
+  await dataStore.createDemoTasks(
+      frontTasks: tasks.sublist(0, 6),
+      backTasks: tasks.sublist(6),
+      force: false);
 
   runApp(ProviderScope(overrides: [
     dataStoreProvider.overrideWithValue(dataStore),
@@ -37,6 +40,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Helvetica Neue',
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
       ),
       home: AppTheme(
         data: AppThemeData.defaultWithSwatch(AppColors.red),
