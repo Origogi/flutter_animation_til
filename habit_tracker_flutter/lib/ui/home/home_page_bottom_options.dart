@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:habit_tracker_flutter/ui/theming/app_theme.dart';
 
 class HomePageBottomOptions extends StatelessWidget {

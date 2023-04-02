@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker_flutter/models/task.dart';
-import 'package:habit_tracker_flutter/models/task_preset.dart';
 import 'package:habit_tracker_flutter/ui/home/home_page_bottom_options.dart';
 import 'package:habit_tracker_flutter/ui/home/tasks_grid.dart';
 import 'package:habit_tracker_flutter/ui/theming/app_theme.dart';
@@ -17,7 +16,10 @@ class TasksGridPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.of(context).primary,
       body: SafeArea(
-        child: TasksGridContents(tasks: tasks),
+        child: TasksGridContents(
+          tasks: tasks,
+          onFlip: onFlip,
+        ),
       ),
     );
   }
