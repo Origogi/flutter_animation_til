@@ -12,9 +12,44 @@ class PageFlipBuilder extends StatefulWidget {
   PageFlipBuilderState createState() => PageFlipBuilderState();
 }
 
-class PageFlipBuilderState extends State<PageFlipBuilder> {
+class PageFlipBuilderState extends State<PageFlipBuilder>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 500));
+
+  bool _showFrontSide = true;
+
   void flip() {
-    print('flip');
+    if (_showFrontSide) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController.addStatusListener(_updateStatus);
+    _animationController.addListener(() {
+      print(_animationController.value);
+    });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _animationController.addStatusListener(_updateStatus);
+    super.dispose();
+  }
+
+  void _updateStatus(AnimationStatus status) {
+    if (status == AnimationStatus.completed ||
+        status == AnimationStatus.dismissed) {
+      setState(() {
+        _showFrontSide = !_showFrontSide;
+      });
+    }
   }
 
   @override
