@@ -88,8 +88,11 @@ class AnimatedPageFlipBuilder extends AnimatedWidget {
     final rotationAngle =
         animation.value > 0.5 ? pi - rotationValue : rotationValue;
 
+    var tilt = (animation.value - 0.5).abs() - 0.5;
+    tilt *= isAnimationFirst ? -0.003 : 0.003;
+
     return Transform(
-      transform: Matrix4.rotationY(rotationAngle),
+      transform: Matrix4.rotationY(rotationAngle)..setEntry(3, 0, tilt),
       child: child,
       alignment: Alignment.center,
     );
