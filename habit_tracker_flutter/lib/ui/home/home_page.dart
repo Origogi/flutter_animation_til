@@ -18,14 +18,22 @@ class HomePage extends ConsumerWidget {
       frontBuilder: (_) => ValueListenableBuilder(
           valueListenable: source.frontTasksListenable(),
           builder: (_, Box<Task> box, __) {
-            return TasksGridPage(tasks: box.values.toList(), onFlip: () {
-              _pageFlipKey.currentState?.flip();
-            },);
+            return TasksGridPage(
+              tasks: box.values.toList(),
+              onFlip: () {
+                _pageFlipKey.currentState?.flip();
+              },
+            );
           }),
       backBuilder: (_) => ValueListenableBuilder(
           valueListenable: source.backTasksListenable(),
           builder: (_, Box<Task> box, __) {
-            return TasksGridPage(tasks: box.values.toList(), onFlip: () {},);
+            return TasksGridPage(
+              tasks: box.values.toList(),
+              onFlip: () {
+                _pageFlipKey.currentState?.flip();
+              },
+            );
           }),
     );
   }

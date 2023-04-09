@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 
 class PageFlipBuilder extends StatefulWidget {
@@ -79,6 +81,17 @@ class AnimatedPageFlipBuilder extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    return frontBuilder(context);
+    final isAnimationFirst = animation.value < 0.5;
+    final child =
+        isAnimationFirst ? frontBuilder(context) : backBuilder(context);
+    final rotationValue = animation.value * pi;
+    final rotationAngle =
+        animation.value > 0.5 ? pi - rotationValue : rotationValue;
+
+    return Transform(
+      transform: Matrix4.rotationY(rotationAngle),
+      child: child,
+      alignment: Alignment.center,
+    );
   }
 }
