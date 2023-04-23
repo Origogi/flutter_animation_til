@@ -12,12 +12,12 @@ class SlidingPanelAnimator extends StatefulWidget {
 
   @override
   State<SlidingPanelAnimator> createState() =>
-      _SlidingPanelAnimatorState(Duration(milliseconds: 200));
+      SlidingPanelAnimatorState(Duration(milliseconds: 200));
 }
 
-class _SlidingPanelAnimatorState
+class SlidingPanelAnimatorState
     extends AnimationControllerState<SlidingPanelAnimator> {
-  _SlidingPanelAnimatorState(Duration animationDuration)
+  SlidingPanelAnimatorState(Duration animationDuration)
       : super(animationDuration);
 
   void slideIn() {
