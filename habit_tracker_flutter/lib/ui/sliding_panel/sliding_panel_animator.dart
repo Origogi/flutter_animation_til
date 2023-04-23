@@ -42,8 +42,13 @@ class _SlidingPanelAnimatorState
       builder: (BuildContext context, Widget? child) {
         final animationValue = animationController.value;
 
+        if (animationValue == 0) {
+          return Container();
+        }
+
         final offsetX =
             _getOffSetX(MediaQuery.of(context).size.width, animationValue);
+
         return Transform.translate(
           offset: Offset(offsetX, 0),
           child: child,
